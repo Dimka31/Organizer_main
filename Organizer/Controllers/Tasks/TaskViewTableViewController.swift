@@ -15,7 +15,7 @@ class TaskViewTableViewController: UIViewController {
     var taskObject: TasksEntity!
     
     @IBAction func uwingToViewTaskController(segue: UIStoryboardSegue) {
-        guard segue.identifier == "unwindToTaskViewController" else { return }
+        guard segue.identifier == "unwindSegueToTaskViewController" else { return }
         
         let svc = segue.source as? EditTaskViewController
         taskObject = svc?.taskObject

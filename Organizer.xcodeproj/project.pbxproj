@@ -17,7 +17,7 @@
 		37A392F6206A4F0300187651 /* TaskViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A392F5206A4F0300187651 /* TaskViewTableViewController.swift */; };
 		37BE1D532099BE0100DDCD9F /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BE1D522099BE0100DDCD9F /* TaskTableViewCell.swift */; };
 		37C0948C204C75C500FF3234 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C0948B204C75C500FF3234 /* AppDelegate.swift */; };
-		37C0948E204C75C500FF3234 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C0948D204C75C500FF3234 /* MainController.swift */; };
+		37C0948E204C75C500FF3234 /* NotesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C0948D204C75C500FF3234 /* NotesController.swift */; };
 		37C09491204C75C500FF3234 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37C0948F204C75C500FF3234 /* Main.storyboard */; };
 		37C09493204C75C500FF3234 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37C09492204C75C500FF3234 /* Assets.xcassets */; };
 		37C09496204C75C500FF3234 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37C09494204C75C500FF3234 /* LaunchScreen.storyboard */; };
@@ -39,7 +39,7 @@
 		37BE1D522099BE0100DDCD9F /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		37C09488204C75C500FF3234 /* Organizer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Organizer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37C0948B204C75C500FF3234 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		37C0948D204C75C500FF3234 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		37C0948D204C75C500FF3234 /* NotesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesController.swift; sourceTree = "<group>"; };
 		37C09490204C75C500FF3234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		37C09492204C75C500FF3234 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		37C09495204C75C500FF3234 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -67,13 +67,11 @@
 		376585DC209B32E400CF0B91 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
-				37C0948D204C75C500FF3234 /* MainController.swift */,
 				372594332063C4FC00B74FB0 /* TasksController.swift */,
 				372DB4CC2066504A001D7BE3 /* NewTaskTableViewController.swift */,
 				37A392F5206A4F0300187651 /* TaskViewTableViewController.swift */,
 				37BE1D522099BE0100DDCD9F /* TaskTableViewCell.swift */,
 				376585DA209B329200CF0B91 /* EditTaskViewController.swift */,
-				3779B56620A0629800C9729A /* DailyPlansTableViewController.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -81,9 +79,10 @@
 		37BE1D4F2099A96000DDCD9F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				37C0948D204C75C500FF3234 /* NotesController.swift */,
+				37C0C69D20ADCF3B002E4045 /* DailyPlans */,
+				37C0C69C20ADCF19002E4045 /* Help */,
 				376585DC209B32E400CF0B91 /* Tasks */,
-				37ED831920AB2A9800D8A641 /* HelpTableViewController.swift */,
-				37C0C69A20AC7B6A002E4045 /* HelpDetailTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -137,6 +136,23 @@
 				37C09497204C75C500FF3234 /* Info.plist */,
 			);
 			path = Organizer;
+			sourceTree = "<group>";
+		};
+		37C0C69C20ADCF19002E4045 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				37ED831920AB2A9800D8A641 /* HelpTableViewController.swift */,
+				37C0C69A20AC7B6A002E4045 /* HelpDetailTableViewController.swift */,
+			);
+			path = Help;
+			sourceTree = "<group>";
+		};
+		37C0C69D20ADCF3B002E4045 /* DailyPlans */ = {
+			isa = PBXGroup;
+			children = (
+				3779B56620A0629800C9729A /* DailyPlansTableViewController.swift */,
+			);
+			path = DailyPlans;
 			sourceTree = "<group>";
 		};
 		3FDA402ED5C38BE85D5AEC52 /* Pods */ = {
@@ -281,7 +297,7 @@
 				376585DB209B329200CF0B91 /* EditTaskViewController.swift in Sources */,
 				3779B56920A068DA00C9729A /* DailyPlans.swift in Sources */,
 				372DB4CD2066504A001D7BE3 /* NewTaskTableViewController.swift in Sources */,
-				37C0948E204C75C500FF3234 /* MainController.swift in Sources */,
+				37C0948E204C75C500FF3234 /* NotesController.swift in Sources */,
 				372DB4C82063ECE6001D7BE3 /* TasksController.swift in Sources */,
 				37C0C69B20AC7B6A002E4045 /* HelpDetailTableViewController.swift in Sources */,
 				37C0948C204C75C500FF3234 /* AppDelegate.swift in Sources */,

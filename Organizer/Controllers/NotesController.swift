@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class MainController: UIViewController, UITextViewDelegate {
+class NotesController: UIViewController, UITextViewDelegate {
     
     var noteObject: NotesEntity?
     let realm = try! Realm()

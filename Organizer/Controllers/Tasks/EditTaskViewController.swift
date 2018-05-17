@@ -24,7 +24,7 @@ class EditTaskViewController: UIViewController {
             taskObject!.text = TaskTextEl.text!
         }
         
-        performSegue(withIdentifier: "unwindToTaskViewController", sender: nil)
+        performSegue(withIdentifier: "unwindSegueToTaskViewController", sender: nil)
     }
     
     override func viewDidLoad() {
