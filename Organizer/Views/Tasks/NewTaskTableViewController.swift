@@ -7,11 +7,12 @@
 //
 
 import UIKit
-import RealmSwift
 
 class NewTaskTableViewController: UIViewController {
     @IBOutlet weak var taskName: UITextField!
     @IBOutlet weak var taskText: UITextView!
+    
+    private var viewModel = TasksModelView() // лишняя подгрузка данных, переделать
     
     @IBAction func addNewTask(_ sender: UIButton) {
         
@@ -23,18 +24,18 @@ class NewTaskTableViewController: UIViewController {
             
             present(alertController, animated: true, completion: nil)
         } else {
-            let realm = try! Realm()
-            
-            try! realm.write {
-                let newTask = TasksEntity()
+            if let title = self.taskName.text, let text = self.taskText.text {
+                viewModel.addTask(title: title, text: text)
+                performSegue(withIdentifier: "unwindToTasksController", sender: nil)
                 
-                newTask.title = self.taskName.text!
-                newTask.text = self.taskText.text
+            } else {
+                let alertController = UIAlertController(title: "Ошибка", message: "Произошла ошибка при сохранении данных", preferredStyle: .alert)
                 
-                realm.add(newTask)
+                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(defaultAction)
+                
+                present(alertController, animated: true, completion: nil)
             }
-            
-            performSegue(withIdentifier: "unwindToTasksController", sender: nil)
         }
     }
 }

@@ -7,57 +7,47 @@
 //
 
 import UIKit
-import RealmSwift
 
 class DailyPlansTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var plansTableView: UITableView!
-    
-    var plansObjects: Results<DailyPlansEntity>!
-    let realm = try! Realm()
-    
+    private var viewModel = DailyPlansModelView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.plansObjects = realm.objects(DailyPlansEntity.self)
     }
 
     // MARK: - Table view data source
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return self.plansObjects.count
+        return viewModel.numberOfRows()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "dailyCell")
+        guard let tableViewCell = cell else { return UITableViewCell() }
         
-        cell?.textLabel?.text = plansObjects![indexPath.row].text
+        tableViewCell.textLabel?.text = viewModel.plansObjects[indexPath.row].text
         
-        return cell!
+        return tableViewCell
     }
     
     @IBAction func addPlan(_ sender: Any) {
         let alertController = UIAlertController(title: "Добавить задачу", message: "", preferredStyle: .alert)
         
+        alertController.addTextField()
+        
         let addAction = UIAlertAction(title: "Добавить", style: .default) { _ in
             guard let textField = alertController.textFields?.first, textField.text != "" else { return }
             
-            try! self.realm.write {
-                let newPlan = DailyPlansEntity()
-                newPlan.text = textField.text!
-                self.realm.add(newPlan)
-                
+            if let text = textField.text {
+                self.viewModel.addPlan(text: text)
                 self.plansTableView.reloadData()
             }
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .default, handler: nil)
-        alertController.addTextField()
+        
         alertController.addAction(addAction)
         alertController.addAction(cancelAction)
         
@@ -73,14 +63,14 @@ class DailyPlansTableViewController: UIViewController, UITableViewDelegate, UITa
             let addAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
                 guard let textField = alertController.textFields?.first, textField.text != "" else { return }
                 
-                try! self.realm.write {
-                    self.plansObjects![indexPath.row].text = textField.text!
+                if let text = textField.text {
+                    self.viewModel.editPlan(indexPath: indexPath.row, text: text)
                     self.plansTableView.reloadData()
                 }
             }
             let cancelAction = UIAlertAction(title: "Отменить", style: .default, handler: nil)
             alertController.addTextField()
-            alertController.textFields?.first?.text = self.plansObjects![indexPath.row].text
+            alertController.textFields?.first?.text = self.viewModel.plansObjects[indexPath.row].text
             alertController.addAction(addAction)
             alertController.addAction(cancelAction)
             
@@ -88,13 +78,9 @@ class DailyPlansTableViewController: UIViewController, UITableViewDelegate, UITa
             
         }
         
-        let delete = UITableViewRowAction(style: .destructive, title: "удалить") { (action, indexPath) in
-            let listToBeDeleted = self.plansObjects![indexPath.row]
-            
-            try! self.realm.write({ () -> Void in
-                self.realm.delete(listToBeDeleted)
-                tableView.reloadData()
-            })
+        let delete = UITableViewRowAction(style: .destructive, title: "удалить") { (action, indexPath) in           
+            self.viewModel.deletePlan(indexPath: indexPath.row)
+            self.plansTableView.reloadData()
         }
         
         editing.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)

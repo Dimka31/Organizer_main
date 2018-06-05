@@ -7,38 +7,35 @@
 //
 
 import UIKit
-import RealmSwift
 
-class TasksController: UIViewController, UITableViewDelegate, UITableViewDataSource	 {
+class TasksController: UIViewController, UITableViewDelegate, UITableViewDataSource     {
     @IBOutlet weak var TasksTable: UITableView!
     
-    var tasksAr: Results<TasksEntity>?
-    let realm = try! Realm()
+    private var viewModel = TasksModelView()
+    
     
     @IBAction func uwingToTaskController(segue: UIStoryboardSegue) {
         guard segue.identifier == "unwindToTasksController" else { return }
         
-        tasksAr = realm.objects(TasksEntity.self)
         TasksTable.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tasksAr = realm.objects(TasksEntity.self)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell") as! TaskTableViewCell
         
-        cell.taskTitle.text = tasksAr![indexPath.row].title
-        cell.taskText.text = tasksAr![indexPath.row].text
+        cell.taskTitle.text = viewModel.tasksAr[indexPath.row].title
+        cell.taskText.text = viewModel.tasksAr[indexPath.row].text
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasksAr?.count ?? 0
+        return viewModel.tasksAr.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -47,22 +44,16 @@ class TasksController: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let listToBeDeleted = self.tasksAr![indexPath.row]
-
-            try! realm.write({ () -> Void in
-                realm.delete(listToBeDeleted)
-                tableView.reloadData()
-            })
+            self.viewModel.deleteTask(indexPath: indexPath.row)
+            tableView.reloadData()
         }
-        
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "viewTaskSegue" {
             if let indexPath = TasksTable.indexPathForSelectedRow {
                 let dvc = segue.destination as! TaskViewTableViewController
-                dvc.taskObject = tasksAr![indexPath.row]
+                dvc.taskObject = viewModel.tasksAr[indexPath.row]
             }
         }
     }

@@ -7,40 +7,20 @@
 //
 
 import UIKit
-import Alamofire
 
 class HelpTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var HelpTable: UITableView!
     
     var posts: [HelpPost] = []
+    private var viewModel = HelpModelView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        request("http://mindfree.ru/ajax/org_news.php").responseJSON { responseJSON in
-            
-            switch responseJSON.result {
-            case .success(let value):
-                
-                guard let jsonArray = value as? Array<[String: Any]> else { return }
-                
-                for jsonObject in jsonArray {
-                    guard
-                        let title = jsonObject["title"] as? String,
-                        let text = jsonObject["text"] as? String
-                        else {
-                            return
-                    }
-                    let post = HelpPost(title: title, text: text)
-                    self.posts.append(post)
-                }
-                
-                self.HelpTable.reloadData()
-                
-            case .failure(let error):
-                print(error)
-            }
+        posts = viewModel.getHelp {
+            self.HelpTable.reloadData()
         }
+        
     }
 
     // MARK: - Table view data source
